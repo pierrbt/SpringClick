@@ -1,30 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
+import io from "socket.io-client"
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+type Score = {
+  id: number;
+  username: string;
+  cps: number;
+  created_at: string;
+}
 
+const socket = io("ws://localhost:3000", {});
+
+function App() {
+  const [scores, setScores] = useState([] as Score[])
+  
+  useEffect(() => {
+    socket.emit("init");
+    socket.on("scores", (score: Score[]) => {
+      setScores(score)
+    })
+  })
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
       <h1>SpringClick Leaderboard</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Faites le meilleur score possible !
-        </p>
-      </div>
+      <main>
+        {scores.map((score) => 
+        <div>
+          {score.username} : {score.cps}
+        </div>
+        )}
+      </main>
     </>
   )
 }
