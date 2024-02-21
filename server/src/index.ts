@@ -1,6 +1,7 @@
 import { Server } from "socket.io"
 import {initClient, newScore, removeScore} from "./handlers";
 
+// Création du serveur socket.io
 const io = new Server(3000, {
   cors: {
     origin: "*",
@@ -8,12 +9,13 @@ const io = new Server(3000, {
   }
 })
 
-io.on("connection", (socket) => {
-  console.log(`[INFO] - User connected: ${socket.id}`)
+io.on("connection", (socket) => { // Lorsqu'un utilisateur se connecte
+  console.log(`[INFO] - User connected: ${socket.id}`) // On affiche son id
 
-  socket.on("send-score", newScore)
-  socket.on("init", initClient(socket))
-  socket.on("remove", removeScore)
+  // On écoute les événements "add-score", "init-client" et "remove-score"
+  socket.on("add-score", newScore)
+  socket.on("init-client", initClient(socket))
+  socket.on("remove-score", removeScore)
 })
 
 console.log("[INFO] - 🚀 Server is running on port 3000")
