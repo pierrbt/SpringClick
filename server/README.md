@@ -1,4 +1,4 @@
-# SpringClick Leaderboard
+# SpringClick Server
 
 ## Get started
 
@@ -6,8 +6,6 @@
 pnpm i
 pnpm dev
 ```
-
-
 
 ## Authored by
 Pierre BIDET

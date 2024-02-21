@@ -1,6 +1,15 @@
-# Tauri + React + Typescript
+# SpringClick Client
 
 This template should help get you started developing with Tauri, React and Typescript in Vite.
+
+## Get started
+
+```bash
+pnpm i
+pnpm tauri dev
+```
+
+Vous avez besoin de Rust d'installé (et donc des Visual Studio Build Tools)
 
 ## Recommended IDE Setup
 
