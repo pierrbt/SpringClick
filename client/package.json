@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "fmt": "pnpx @biomejs/biome check ./src ./src-tauri --apply"
   },
   "dependencies": {
     "@tauri-apps/api": "^1.5.2",
@@ -17,6 +18,7 @@
     "socket.io-client": "^4.7.4"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.5.3",
     "@tauri-apps/cli": "^1.5.8",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",

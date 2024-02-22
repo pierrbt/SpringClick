@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node -r @swc-node/register ./src/index.ts",
     "start": "node -r @swc-node/register ./src/index.ts",
-    "fmt": "pnpx @biomejs/biome ci ./src"
+    "fmt": "pnpx @biomejs/biome check ./src --apply"
   },
   "keywords": [],
   "author": "",
