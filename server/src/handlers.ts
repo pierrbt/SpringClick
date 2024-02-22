@@ -35,8 +35,10 @@ const initClient = (socket: {id: string, emit: (type: string, data: unknown) => 
   }
 }
 
-const removeScore = (id: number) => {
+const removeScore = (id: number) => { // Fonction appelée lorsque le leaderboard supprime un score
   deleteScore.run(id) // On supprime le score de la base de données
+  const scores = getScore.all()
+  io.emit("scores", scores)
 }
 
 export {newScore, initClient, removeScore}
