@@ -1,4 +1,4 @@
-import {addScore, getScore, getLastScore, deleteScore, getUserScore} from "./db";
+import {addScore, getScore, deleteScore, getUserScore} from "./db";
 import {Score} from "./types"
 import io from "./index";
 
@@ -31,7 +31,7 @@ const initClient = (socket: {id: string, emit: (type: string, data: unknown) => 
   return  () => {
     console.log(`[INFO] - User ${socket.id} initialized`)
     const scores = getScore.all()
-    io.emit("scores", scores)
+    socket.emit("scores", scores)
   }
 }
 
