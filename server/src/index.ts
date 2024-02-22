@@ -1,8 +1,9 @@
 import { Server } from "socket.io"
 import {initClient, newScore, removeScore} from "./handlers";
-import { getUserScore } from "./db";
+
 // Création du serveur socket.io
 const io = new Server(3000, {
+  connectTimeout: 10000,
   cors: {
     origin: "*",
     methods: ["GET", "POST"]
@@ -14,8 +15,9 @@ io.on("connection", (socket) => { // Lorsqu'un utilisateur se connecte
 
   // On écoute les événements "add-score", "init-client" et "remove-score"
   socket.on("add-score", newScore)
-  socket.on("init-client", initClient(socket))
   socket.on("remove-score", removeScore)
+  socket.on("init-client", initClient(socket))
+
 })
 
 
