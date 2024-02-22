@@ -1,6 +1,6 @@
 import { Server } from "socket.io"
 import {initClient, newScore, removeScore} from "./handlers";
-
+import { getUserScore } from "./db";
 // Création du serveur socket.io
 const io = new Server(3000, {
   cors: {
@@ -17,6 +17,7 @@ io.on("connection", (socket) => { // Lorsqu'un utilisateur se connecte
   socket.on("init-client", initClient(socket))
   socket.on("remove-score", removeScore)
 })
+
 
 console.log("[INFO] - 🚀 Server is running on port 3000")
 export default io;
