@@ -1,7 +1,148 @@
-.logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
+/*
+
+<>
+      <header>
+        <nav>
+          <h1>SpringClick</h1>
+        </nav>
+      </header>
+      <main>
+        <aside>
+        {  classement latéral  }
+</aside>
+<section>
+ {  page principale  }
+{username === "" ? (
+<div>
+<h2>Enter your username</h2>
+<input
+type="text"
+onKeyDown={(e) => {
+    if (e.key === "Enter") {
+setUsername(e.currentTarget.value);
+}
+}}
+/>
+<label>Appuyez sur &lt;Entrée&gt; pour valider</label>
+</div>
+) : (
+<div>
+<h2>C'est l'heure de briller, {username}</h2>
+<button>Start Game</button>
+</div>
+)
+}
+</section>
+</main>
+</>
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Rubik", sans-serif;
 }
 
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafb);
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    background-color: #f6f6f6;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 }
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #0f0f0f;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+aside {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 200px;
+    margin-right: 20px;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #0f0f0f;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #0f0f0f;
+    border-radius: 4px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 400;
+    color: #0f0f0f;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    font-size: 40px;
+    font-weight: 700;
+
+    background-color: #0f0f0f;
+    color: #f6f6f6;
+    border: none;
+
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #1a1a1a;
+}
+
+button:active {
+    background-color: #0f0f0f;
+}
+
+
+
+li {
+    margin-left: 2rem;
+}
+
+/* Path: client/src/App.css */

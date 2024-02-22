@@ -1,52 +1,98 @@
-import { invoke } from "@tauri-apps/api/tauri";
-import { useState } from "react";
 import "./App.css";
-import reactLogo from "./assets/react.svg";
+import {useEffect, useRef, useState} from "react";
+import {io, Socket} from "socket.io-client";
+
+const COUNT = 5;
 
 function App() {
-	const [greetMsg, setGreetMsg] = useState("");
-	const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [scores, setScores] = useState([]);
+  const [connected, setConnected] = useState(false);
 
-	async function greet() {
-		// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-		setGreetMsg(await invoke("greet", { name }));
-	}
+  const [gameStarted, setGameStarted] = useState(false);
 
-	return (
-		<div className="container">
-			<h1>Welcome to Tauri!</h1>
+  const buttonRef = useRef(null! as HTMLButtonElement);
+  const socketRef = useRef(null! as Socket);
 
-			<div className="row">
-				<a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-					<img src="/vite.svg" className="logo vite" alt="Vite logo" />
-				</a>
-				<a href="https://tauri.app" target="_blank" rel="noreferrer">
-					<img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-				</a>
-				<a href="https://reactjs.org" target="_blank" rel="noreferrer">
-					<img src={reactLogo} className="logo react" alt="React logo" />
-				</a>
-			</div>
+  useEffect(() => {
+    const socket = io("ws://localhost:3000");
+    socketRef.current = socket;
 
-			<p>Click on the Tauri, Vite, and React logos to learn more.</p>
+    socket.emit("init-client");
 
-			<form
-				className="row"
-				onSubmit={(e) => {
-					e.preventDefault();
-					greet();
-				}}
-			>
-				<input
-					id="greet-input"
-					onChange={(e) => setName(e.currentTarget.value)}
-					placeholder="Enter a name..."
-				/>
-				<button type="submit">Greet</button>
-			</form>
+    socket.on("scores", (score) => {
+      console.log(score);
+      setScores(score);
+    });
 
-			<p>{greetMsg}</p>
-		</div>
+    socket.on("connect", () => {
+      setConnected(true);
+    });
+
+    socket.on("disconnect", () => {
+      setConnected(false);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+  // useEffect(() => {
+  //   if (gameStarted) {
+  //     const interval = setInterval(() => {
+  //
+  //     }, 1000);
+  //     return () => clearInterval(interval);
+  //   }
+  // }, [gameStarted]);
+
+  return (
+		<>
+      <header>
+        <nav>
+          <h1>SpringClick</h1>
+        </nav>
+      </header>
+      <main>
+        { !connected ? (
+          <h1>Connexion en cours...</h1>
+        ) : (
+          <>
+            <aside>
+              <h1>Classement</h1>
+              <ol>
+                {scores.map((score: any) => (
+                  <li>{score.username} : {score.cps.toFixed(1)}</li>
+                ))}
+              </ol>
+
+              {/*  classement latéral  */}
+            </aside>
+            <section>
+              {/*  page principale  */}
+              {username === "" ? (
+                <div>
+                  <h2>Entrez votre nom :</h2>
+                  <input
+                    type="text"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        setUsername(e.currentTarget.value);
+                      }
+                    }}/>
+                  <label>Appuyez sur &lt;Entrée&gt; pour valider</label>
+                </div>
+              ) : (
+                <div>
+                  <h2>C'est l'heure de briller, {username}</h2>
+                  <button ref={buttonRef}>GO</button>
+                </div>
+              )}
+            </section>
+          </>
+      )}
+      </main>
+    </>
 	);
 }
 
