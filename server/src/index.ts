@@ -1,13 +1,27 @@
 import { Server } from "socket.io"
 import {initClient, newScore, removeScore} from "./handlers";
 import { getUserScore } from "./db";
+import express from "express";
+import { createServer } from "node:http";
+import cors from "cors";
+import { join } from "node:path";
+
+
+const app = express();
+const server = createServer(app);
+
+app.use(cors({ origin: '*', methods: ["GET", "POST"]}));
+app.use('/leaderboard', express.static(join(__dirname, '../../leaderboard/dist')))
+
 // Création du serveur socket.io
-const io = new Server(3000, {
+const io = new Server(server, {
   cors: {
-    origin: "*",
-    methods: ["GET", "POST"]
-  }
+		origin: "*",
+		methods: ["GET", "POST"],
+	},
 })
+
+
 
 io.on("connection", (socket) => { // Lorsqu'un utilisateur se connecte
   console.log(`[INFO] - User connected: ${socket.id}`) // On affiche son id
@@ -18,6 +32,8 @@ io.on("connection", (socket) => { // Lorsqu'un utilisateur se connecte
   socket.on("remove-score", removeScore)
 })
 
+server.listen(3000, () => {
+  console.log("[INFO] - 🚀 Server is running on http://localhost:3000")
+});
 
-console.log("[INFO] - 🚀 Server is running on port 3000")
 export default io;
