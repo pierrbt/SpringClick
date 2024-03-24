@@ -1,15 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { Socket, io } from "socket.io-client";
+import { type Socket, io } from "socket.io-client";
 import "./App.css";
-
-const COUNT = 5;
 
 function App() {
 	const [username, setUsername] = useState("");
 	const [scores, setScores] = useState([]);
 	const [connected, setConnected] = useState(false);
 
-	const [gameStarted, setGameStarted] = useState(false);
+	// const [gameStarted, setGameStarted] = useState(false);
 
 	const buttonRef = useRef(null! as HTMLButtonElement);
 	const socketRef = useRef(null! as Socket);
@@ -37,15 +35,6 @@ function App() {
 			socket.disconnect();
 		};
 	}, []);
-	// useEffect(() => {
-	//   if (gameStarted) {
-	//     const interval = setInterval(() => {
-	//
-	//     }, 1000);
-	//     return () => clearInterval(interval);
-	//   }
-	// }, [gameStarted]);
-
 	return (
 		<>
 			<header>
