@@ -1,4 +1,4 @@
-import { Score } from "./types.ts";
+import type { Score } from "./types.ts";
 
 function Table({ scores }: { scores: Score[] }) {
 	return (
