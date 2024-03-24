@@ -1,10 +1,12 @@
 * {
-  font-size: 62, 5%;
+  font-size: 16px;
+  font-family: "Rubik", sans-serif;
   box-sizing: border-box;
   margin: 0;
+  padding: 0;
 }
 
-body {
+body, html, #root {
   height: 100%;
   width: 100%;
   min-height: 100vh;
@@ -16,7 +18,7 @@ body {
 
 main {
   width: 40rem;
-  height: 43rem;
+  height: 95vh;
   background-color: #ffffff;
   -webkit-box-shadow: 0px 5px 15px 8px #e4e7fb;
   box-shadow: 0px 5px 15px 8px #e4e7fb;
@@ -37,18 +39,16 @@ main {
 
 h1 {
   font-family: "Rubik", sans-serif;
-  font-size: 1.7rem;
+  font-size: 2rem;
   color: #141a39;
-  text-transform: uppercase;
   cursor: default;
+  font-weight: bold;
+
 }
 
 #leaderboard {
   width: 100%;
   position: relative;
-  /* Ajout de la hauteur et défilement vertical */
-  overflow: visible;
-  overflow-y: hi;
 }
 
 table {
@@ -57,6 +57,14 @@ table {
   table-layout: fixed;
   color: #141a39;
   cursor: default;
+
+  max-height: 500px;
+
+}
+
+tbody {
+  overflow: auto;
+
 }
 
 tr {
@@ -182,23 +190,4 @@ footer {
   font-size: 0.8rem;
   color: #7a7a7d;
 
-}
-
-
-@media (max-width: 740px) {
-  * {
-    font-size: 70%;
-  }
-}
-
-@media (max-width: 500px) {
-  * {
-    font-size: 55%;
-  }
-}
-
-@media (max-width: 390px) {
-  * {
-    font-size: 45%;
-  }
 }
