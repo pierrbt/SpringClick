@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import io, { Socket } from "socket.io-client";
-import "./css/App.css";
-import { Score } from "./types";
-
+import io, { type Socket } from "socket.io-client";
+import "./css/Leaderboard.css";
+import type { Score } from "./types";
 
 function Leaderboard() {
 	const [scores, setScores] = useState([]);
@@ -46,21 +45,24 @@ function Leaderboard() {
 				</div>
 				{connected ? (
 					<div id="leaderboard">
-						<div className="ribbon"></div>
+						<div className="ribbon" />
 						<table>
 							{scores.map((score: Score, index: number) => (
-								<tr key={score.id} onClick={toggleEditMode}>
+								<tr key={score.id} onMouseUp={toggleEditMode}>
 									<td className="number">{index + 1}</td>
 									<td className="name">{score.username}</td>
 									<td className="points">{score.cps.toFixed(2)}</td>
 									{editMode && (
 										<td>
 											<button
-												onClick={() => {
+												type="button"
+												onMouseUp={() => {
 													socketRef.current?.emit("remove-score", score.id);
 												}}
 											>
 												<svg
+													role="img"
+													aria-label="Delete"
 													xmlns="http://www.w3.org/2000/svg"
 													height="24"
 													viewBox="0 -960 960 960"
