@@ -5,6 +5,22 @@ import cors from "cors";
 import express from "express";
 import { Server } from "socket.io";
 import { initClient, newScore, removeScore } from "./handlers";
+import {existsSync} from "fs";
+
+console.log("[INFO] - Starting server...")
+
+let leaderboardPath = join(__dirname, "../../leaderboard/dist");
+
+if(!existsSync(leaderboardPath)) {
+  const secondaryPath = join(__dirname, "../leaderboard");
+  if(existsSync(secondaryPath)) {
+    leaderboardPath = secondaryPath;
+  }
+  else {
+    console.error("[ERROR] - Leaderboard folder not found, please build it in '/leaderboard/dist' or '/server/leaderboard'");
+    process.exit(1);
+  }
+}
 
 const app = express();
 const server = createServer(app);
@@ -12,8 +28,16 @@ const server = createServer(app);
 app.use(cors({ origin: "*", methods: ["GET", "POST"] }));
 app.use(
 	"/leaderboard",
-	express.static(join(__dirname, "../../leaderboard/dist")),
+	express.static(leaderboardPath),
 );
+
+app.get("/", (_, res) => {
+  res.sendFile(join(__dirname, "../public/root.html"));
+});
+
+app.use((_, res) => {
+  res.sendFile(join(__dirname, "../public/404.html"));
+});
 
 // Création du serveur socket.io
 const io = new Server(server, {
@@ -33,8 +57,20 @@ io.on("connection", (socket) => {
 	socket.on("remove-score", removeScore);
 });
 
-server.listen(3000, () => {
-	console.log("[INFO] - 🚀 Server is running on http://localhost:3000");
+app.on("error", (err: any) => {
+  console.error(`[ERROR] - ${err}`);
 });
+
+server.on("error", (err) => {
+  console.error(`[ERROR] - ${err}`);
+});
+
+server.listen(3000, () => {
+	console.log("[WELCOME] - 🚀 Server is running on http://localhost:3000 , Socket.IO is also running on ws://localhost:3000");
+});
+
+
+
+
 
 export default io;
