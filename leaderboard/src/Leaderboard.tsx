@@ -1,24 +1,24 @@
 import { useEffect, useRef, useState } from "react";
+import ConfettiExplosion from "react-confetti-explosion";
 import io, { type Socket } from "socket.io-client";
 import "./css/Leaderboard.css";
 import type { Score } from "./types";
+
+function isEqual(a: Score, b: Score) {
+  return a.id === b.id;
+}
 
 function Leaderboard() {
 	const [scores, setScores] = useState([]);
 	const [connected, setConnected] = useState(false);
 	const [editMode, setEditMode] = useState(false);
+	const [confetti, setConfetti] = useState(false);
 	const socketRef = useRef(null as Socket | null);
-
 	useEffect(() => {
 		const socket = io("ws://localhost:3000");
 		socketRef.current = socket;
 
 		socket.emit("init-client");
-
-		socket.on("scores", (score) => {
-			console.log(score);
-			setScores(score);
-		});
 
 		socket.on("connect", () => {
 			setConnected(true);
@@ -33,12 +33,37 @@ function Leaderboard() {
 		};
 	}, []);
 
+  useEffect(() => {
+    socketRef.current!.on("scores", (score) => {
+      console.log(score[0], scores[0])
+      if (
+        scores.length === 0 ||
+        (score.length > 0 && !isEqual(score[0], scores[0]))
+      ) {
+        console.log("wafrere")
+        setConfetti(true);
+      }
+      setScores(score);
+    });
+  }, [socketRef.current, scores]);
+
 	const toggleEditMode = () => {
 		setEditMode(!editMode);
 	};
 
 	return (
 		<>
+			{confetti && (
+				<ConfettiExplosion
+					onComplete={() => {
+						setConfetti(false);
+					}}
+					force={0.8}
+					duration={3000}
+					particleCount={250}
+					width={1600}
+				/>
+			)}
 			<main>
 				<div id="header">
 					<h1>Classement SpringClick</h1>
