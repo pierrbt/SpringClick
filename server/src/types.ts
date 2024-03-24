@@ -5,4 +5,4 @@ type Score = {
 	created_at: string;
 };
 
-export { type Score };
+export type { Score };

@@ -12,10 +12,9 @@ const addScore = db.prepare(
 	"INSERT INTO scores (username, cps) VALUES (@username, @cps)",
 );
 const getScore = db.prepare("SELECT * FROM scores ORDER BY cps DESC");
-const getLastScore = db.prepare("SELECT * FROM scores WHERE id=? LIMIT 1");
 const deleteScore = db.prepare("DELETE FROM scores WHERE id=?");
 const getUserScore = db.prepare(
 	"SELECT * FROM scores WHERE username=? ORDER BY cps DESC",
 );
 
-export { addScore, getScore, getLastScore, deleteScore, getUserScore };
+export { addScore, getScore, deleteScore, getUserScore };

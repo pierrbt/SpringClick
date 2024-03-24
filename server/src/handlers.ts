@@ -1,6 +1,6 @@
 import { addScore, deleteScore, getScore, getUserScore } from "./db";
 import io from "./index";
-import { Score } from "./types";
+import type { Score } from "./types";
 
 // Fonctions des sockets
 const newScore = ({ username, cps }: { username: string; cps: number }) => {
