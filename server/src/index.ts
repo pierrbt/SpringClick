@@ -1,4 +1,4 @@
-import { existsSync } from "fs";
+import { existsSync } from "node:fs";
 import { createServer } from "node:http";
 import { join } from "node:path";
 // @ts-ignore
